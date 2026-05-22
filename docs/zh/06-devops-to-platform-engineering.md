@@ -321,3 +321,16 @@ DevOps 到平台工程的演进说明，自动化不是终点，控制权产品�
 - [Platform Engineering Guide](https://platformengineering.org/)
 - [ArgoCD Documentation](https://argo-cd.readthedocs.io/)
 - [Backstage Documentation](https://backstage.io/docs/)
+
+## 基础设施演进主线：Kubernetes 作为中间层
+
+把过去十几年的基础设施演进串起来看，Kubernetes 更像一个时代的中间层，而不是终点。整个演进可以分成四个明确的阶段：
+
+**第一阶段：手工运维。** 研发写好代码扔给运维，运维手动部署、手动配置、手动扩缩容、手动排查故障。环境不一致、配置漂移、变更回滚困难成为常态。每次上线都是
+高风险操作。这个阶段依赖的是人的经验，而不是系统能力。
+
+**第二阶段：工具化与自动化。** 配置管理（Puppet/Chef/Ansible）、CI/CD（Jenkins/GitLab CI）、镜像构建和基础设施即代码（Terraform）出现后，重复操作开始被脚本取代。部署从手工变自动，环境从手动配置变声明式管理。但自动化也带来了新的问题：脚本越多维护负担越重，环境碎片化在团队分权后反而加剧。
+
+**第三阶段：DevOps 与云原生。** Kubernetes 把基础设施抽象成声明式 API，Docker 统一运行环境，GitOps（ArgoCD/FluxCD）让 Git 仓库成为环境和部署的事实来源。开发团队获得了更大的自主权——自助部署、自助扩容、自助配置。但 Kubernetes 的复杂性开始外溢：每个团队都在学 YAML、RBAC、Ingress、CNI、CSI，运维工作从"管理服务器"转移到了"管理 Kubernetes"。
+
+**第四阶段：平台工程。** 平台工程是 DevOps 的成熟形态。它承认一个现实：让每个开发团队都成为 Kubernetes 专家是不现实的。正确的做法是把复杂度包装成产品——模板化集群、Golden Path、自助服务目录、内部开发者门户（Backstage/Port）。开发者只需要提交代码和选择模板，环境、流水线、权限、监控和审计由平台自动生成。Kubernetes 是这个演进的中间层：它统一了资源抽象和调度，但真正的价值不在 Kubernetes 本身，而在于平台在此基础上构建的治理能力和开发者体验。

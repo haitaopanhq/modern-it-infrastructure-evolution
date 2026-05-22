@@ -292,3 +292,14 @@ s3.delete_object(Bucket='my-bucket', Key='remote.txt')
 - [Kubernetes Storage Documentation](https://kubernetes.io/docs/concepts/storage/)
 - [Ceph Documentation](https://docs.ceph.com/)
 - [JuiceFS Documentation](https://juicefs.com/docs/)
+
+## 一图读懂存储服务
+
+存储的演进与计算、网络的演进几乎同步，只是更隐蔽。最早的 DAS（直连存储）把数据绑定在单台服务器上，扩容靠换盘，高可用靠 RAID。NAS 和 SAN 的出现第一次把存储从服务器里抽离出来，变成企业级的独立资源池——存储开始可共享、可集中管理、可通过网络访问。但 SAN/NAS 依然是硬件逻辑为主，扩展性受限于存储控制器和光纤交换机。
+
+分布式存储（Ceph、GlusterFS、HDFS）把存储推入软件定义阶段。大量通用服务器的本地磁盘被池化，通过分布式算法（CRUSH、Erasure Coding）实现数据的统一分布、冗余和自愈。对象存储（S3/MinIO）进一步去除目录层级和文件锁，以 HTTP API 提供几乎无限扩展的存储空间。容器与云原生时代，CSI、Rook、Longhorn 让存储与 Kubernetes 的生命周期绑定，存储开始成为集群的基础设施组件而非外部挂载。
+
+AI 时代改变了存储的目标。GPU 训练和推理对存储提出了全新的要求：高吞吐而非低延迟成为首要指标，大体积 Checkpoint 的读写效率决定训练中断后的恢复时长，Embedding、图片和视频数据的投喂速度决定 GPU 利用率。NVMe-oF 和 GPUDirect Storage 让 GPU 可以绕过 CPU 直接访问存储，JuiceFS、Lustre、Alluxio 这类分布式文件系统与缓存层则在对象存储之上构建高速数据管道。
+
+从本地磁盘到分布式存储到云存储，核心演变不是容量增长，而是访问模式的适配：单机 IO → 网络共享 IO → 大规模并发吞吐 → AI 数据流。存储不再只是
+"存数据"，而是"让业务以合适的速度、成本和可靠性读写不同访问模式的数据"。

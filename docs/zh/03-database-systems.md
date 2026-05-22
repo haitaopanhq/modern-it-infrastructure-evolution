@@ -286,3 +286,12 @@ MySQL 和 PostgreSQL 仍然重要，但它们不再独自代表数据库世界�
 - [TiDB Architecture](https://docs.pingcap.com/tidb/stable/architecture)
 - [PostgreSQL Documentation](https://www.postgresql.org/docs/)
 - [Vector Database Survey](https://arxiv.org/abs/2401.12581)
+
+## 一图读懂数据库
+
+数据库的演进可以梳理为一条清晰的主线：从单机存储业务状态，到分布式承载大规模交易，再到 AI 时代面向语义与向量化数据。最早的关系型数据库围绕 ACID 事务设计，以 MySQL 和 PostgreSQL 为代表，解决的是数据一致性、事务隔离和复杂查询。这个阶段数据被当作稳定的业务状态来管理，一切围绕 ACID 展开。
+
+互联网业务爆发后，单库成为瓶颈。读写分离、分库分表（ShardingSphere、Vitess）、缓存（Redis）和消息队列（Kafka）开始共同承担数据流。数据库边界被打破：Redis 补充热点访问，Kafka 支持事件驱动，ES 支撑搜索，时序库处理监控数据。数据开始从
+"被查询的状态"变成"在系统中流动的事件"。
+
+AI 时代将数据库推向第三阶段。Embedding、向量索引、RAG 检索和特征存储让数据库不再只服务于业务交易，也开始服务于模型上下文。Milvus、Qdrant 和 pgvector 代表了新的访问模式：语义检索。未来的数据系统是混合的——关系型数据库支撑事务，向量数据库支撑语义，消息队列支撑事件流，数据湖仓支撑分析与长期治理。从单机到分布式到 AI 时代，数据库的主线始终是"数据如何被更高效地组织和调用"。

@@ -348,3 +348,15 @@ LLM 和 Agent 时代又带来新的观测对象。Prompt 是否异常，Token �
 - [OpenTelemetry Documentation](https://opentelemetry.io/docs/)
 - [Grafana Labs](https://grafana.com/)
 - [Observability Engineering](https://www.oreilly.com/library/view/observability-engineering/9781492076438/)
+
+## 监控的前生今世
+
+监控体系的演进可以简化为三个阶段：基础设施监控 → 应用与链路可观测 → 智能运维与 eBPF 原生。
+
+第一阶段以 SNMP、Zabbix、Nagios 为代表。那个时代监控的核心是
+
+看设备通不通、CPU 是否满载、磁盘是否写满——以单台机器的硬件视角观察系统。Zabbix 用 SNMP 采集网络设备和服务器指标，Nagios 做服务状态检查。这个阶段的问题是监控对象是孤立的单体，无法理解分布式请求的调用关系。故障定位完全依赖运维人员的经验路径。
+
+第二阶段以 Prometheus 和 OpenTelemetry 为代表，监控从"看机器"转向"看服务"。Prometheus 的 Pull 模型和 Metrics 多维标签体系解决了微服务架构下的指标采集和告警问题；OpenTelemetry 统一了 Metrics、Logs、Traces 三类数据格式，应用可以无侵入地接入可观测性体系。分布式追踪让工程师能在几十个服务之间追踪一次请求的完整路径。这个时期监控真正演变为可观测性。
+
+第三阶段以 eBPF 和 AIOps 为特征。eBPF 让观测可以深入到内核态——无需修改应用代码即可捕获系统调用、网络包、文件 IO 和函数执行。AIOps 利用异常检测和根因分析从告警风暴中恢复判断力。未来的监控体系不是堆更多 Dashboard，而是系统辅助人理解系统——从 SNMP 到 eBPF，核心变化是从"被动采集"走向"主动理解"。
